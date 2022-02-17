@@ -1,4 +1,5 @@
 from audioop import reverse
+from curses import KEY_A1
 from math import ceil, floor
 from time import time
 from random import shuffle
@@ -125,13 +126,29 @@ def insertionSortBinary(A: list[int]) -> int:
     Implementer InsertionSort med binær søgning fremfor linær
     """
     for j in range(1,len(A)): # Current Index
-        #print(A[:j])
         key = A[j] #Current value
         i = j - 1 #Previous index
         print(f"KEY {key}, i {i}")
+        
+        something = False
+        A_search = A[:j]
+        while len(A_search) > 1:
+            middle = floor(len(A_search)/2)
+            
+            if A[middle] < key:
+                A_search = A_search[middle + 1:]
+            
+            elif A[middle] == key:
+                #Switch and current
+                A[i + 1] = A[i] 
+            
+            elif A[middle] > key:
+                A_search = A_search[:middle - 1]
 
 
-        binary_search(A[:j], key) 
+            else:
+                return None  
+
         A[i + 1] = key
 
 
