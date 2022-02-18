@@ -1,10 +1,10 @@
 from audioop import reverse
-from curses import KEY_A1
 from math import ceil, floor
 from time import time
 from random import shuffle
 from random import randint
 from typing import Optional
+
 def selection_sort(A):
     """
     P. 29 cormen et al. exercise 2.2
