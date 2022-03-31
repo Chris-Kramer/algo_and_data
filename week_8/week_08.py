@@ -8,6 +8,7 @@ Tilføj tidstagning af din kode
 indhold).
 """
 
+from cmath import inf
 from random import randint
 import math
 from statistics import mean
@@ -50,3 +51,17 @@ start_time = time()
 quicksort(D, 0, len(D) - 1)
 res = (time() - start_time)*1000
 print(res / len(D)*math.log2(len(D)))
+
+
+def test_heap(A):
+    A.insert(0,inf)
+    for i in range(2,len(A)):
+        parent = i//2
+        right_child = 2*i + 1
+        left_child = 2*i
+        print(f"Current node: {A[i]}")
+        print(f"Parent is {A[parent]} which is {A[i] <= A[parent]}")
+        print(f"Right child is {A[right_child]} which is {A[i] >= A[right_child]}")
+        print(f"Left child is {A[left_child]} which is {A[i] >= A[left_child]}")
+
+test_heap([23,17,14,6,13,10,1,5,7,12])
