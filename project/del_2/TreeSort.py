@@ -1,14 +1,17 @@
+#!/usr/bin/env python3 
 import sys
 import DictBinTree as dbt
 
-T = dbt.createEmptyDict()
-n = 0
-for line in sys.stdin:
-    dbt.insert(T,int(line))
-    print(T)
-    n += 1
+def main():  
+    T = dbt.createEmptyDict()
+    n = 0
+    for line in sys.stdin:
+        dbt.insert(T,int(line))
+        n += 1
 
-sorted_list = dbt.orderedTraversal(T)
+    sorted_list = dbt.orderedTraversal(T)
+    for element in sorted_list:
+        print(element)
 
-for element in sorted_list:
-    print(element)
+if __name__ == "__main__":
+    main()

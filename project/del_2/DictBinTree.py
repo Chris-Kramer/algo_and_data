@@ -1,13 +1,51 @@
-def createEmptyDict() -> None:
+#!/usr/bin/env python3
+def createEmptyDict() -> list[None]:
     """
+    -----------------
+    Description
+    -----------------
     Returns an empty binary tree
+    
+    -----------------
+    Parameters
+    -----------------
+    None
+
+    -----------------
+    Return
+    -----------------
+    An empty binary tree, represented as a list containing a None object
+    
+    -----------------
+    Preconditions
+    -----------------
+    None
     """
     return [None]
 
 
 def search(T: list, k: int) -> bool:
     """
+    ----------------
+    Description
+    ----------------
+    Search for an integer value in a binary search Tree
+
+    ----------------
+    Parameters
+    ----------------
+    T: A binary search tree
+    k: An integer to search for in the tree
+
+    ---------------
+    Return
+    ---------------
     Returns a bool indicating if the key is present in the Tree
+
+    ---------------
+    Preconditions
+    ---------------
+    T must be represented as nested lists
     """
     x = T[0]
     while x is not None:
@@ -22,7 +60,26 @@ def search(T: list, k: int) -> bool:
 
 def insert(T: list, k: int) -> None:
     """
-    Inserts a node with a key in the binDictTree
+    -----------------
+    Description
+    -----------------
+    Inserts a node with a key in a binary search tree
+    
+    -----------------
+    Parameters
+    -----------------
+    T: A binary search tree
+    k: An integer to search for in the tree
+
+    -----------------
+    Return
+    -----------------
+    None
+
+    -----------------
+    Preconditions
+    -----------------
+    T must be represented as nested lists
     """
     y = None
     x = T[0]
@@ -33,21 +90,34 @@ def insert(T: list, k: int) -> None:
         else:
             x = x[2]
     if y is None: # If it is an empty tree
-        #T.append([k,None,None])
-        T.append([k, None, None])
-        
-        #T[0] = k
-        #T.append(None)
-        #T.append(None)
+        T[0] = [k, None, None]
     elif k < y[0]:
-        y[1] = k
+        y[1] = [k, None, None]
     else:
-        y[2] = k
+        y[2] = [k, None, None]
 
 
-def orderedTraversal(T: list) -> list:
+def orderedTraversal(T: list) -> list[int]:
     """
-    Returns an ordered list of the binary tree. This is a public function, which passes the relevant parameters to the internal and private function
+    -----------------
+    Description
+    -----------------
+    Sort a binary search tree in increasing order.
+
+    -----------------
+    Parameters
+    -----------------
+    T: A binary search tree
+
+    -----------------
+    Return
+    -----------------
+    A list of integers sorted in increasing order
+
+    -----------------
+    Preconditions
+    -----------------
+    T must be represented as nested lists
     """
     return_list = []
     _orderedTraversal(T[0], return_list)
@@ -55,30 +125,26 @@ def orderedTraversal(T: list) -> list:
 
 def _orderedTraversal(T: list, return_list: list) -> None:
     """
-    An internal function, which handles the recursive calls
+    -----------------
+    Description
+    -----------------
+    An internal function, which handles the recursive calls for the public function orderedTraversal(T)
+
+    -----------------
+    Parameters
+    -----------------
+    T: A binary search tree
+    return_list: The list which will be returned by the public function
+
+    -----------------
+    Preconditions
+    -----------------
+    T must be represented as nested lists
+    return_list is empty first time this function is called (it will be populated through recursion)
     """ 
     x = T
     if x is not None:
         _orderedTraversal(x[1], return_list)
         return_list.append(x[0])
-        _orderedTraversal(x[2], return_list)      
-
-if __name__ == "__main__":
-    #T = [[5,[2, None, None], [8, None,[11,None,None]]]]
-    #T = [[5,[2, None, None], [8, None, None]]]
-    #T = createEmptyDict()
-    #print(orderedTraversal(T))
-    #print(search(T, 8))
-    
-    #Test insert
-    T = createEmptyDict()
-    print(T)
-    insert(T,9)
-    print(T)
-    insert(T,12)
-    #insert(T,7)
-    print(T)
-    
-    
-
+        _orderedTraversal(x[2], return_list)
 
