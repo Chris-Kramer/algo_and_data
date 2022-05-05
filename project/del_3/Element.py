@@ -12,3 +12,9 @@ class Element:
 
     def __lt__(self,other):
         return self.key < other.key
+    
+    def __str__(self):
+        return f"Key: {self.key}, data: {self.data}"
+        
+    def __repr__(self):
+        return f"Key: {self.key}, data: {self.data}"

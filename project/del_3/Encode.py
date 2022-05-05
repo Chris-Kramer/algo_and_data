@@ -1,3 +1,5 @@
+from typing import Optional
+from Element import Element
 import PQHeap as pqh
 import DictBinTree as dbt
 import sys
@@ -14,19 +16,25 @@ while True:
         break
     int_bits.append(b[0])
 
+# Create list of unique values
+u_vals = []
+for int_bit in int_bits:
+    if int_bit not in u_vals:
+        u_vals.append(int_bit)
+        
 # Count frequencies
 freqs = [0 for i in range(256)]
-for int_bit in int_bits:
-    freq = int_bits.count(int_bit)
-    freqs[int_bit] = freq
+for u_val in u_vals:
+    freq = int_bits.count(u_val)
+    freqs[u_val] = freq
 
-# Print Results
-print()
-print("Frequencies: " + str(freqs))
-print("Length: " + str(len(freqs)))
-print()
-
-
+# COnvert to elements
+elements = []
+for i, freq in enumerate(freqs):
+    e = Element(key = freq, data = i)
+    elements.append(e)
+    
+    
 # ------------------ HUFFMANN --------------------------
 Q = pqh.createEmptyPQ()
 for freq in freqs:
@@ -35,18 +43,92 @@ for freq in freqs:
 def Huffman(C):
     # Create priority que
     Q = pqh.createEmptyPQ()
-    for c in C:
+    for bit, freq in enumerate(C):
+        c = Element(freq, bit)
         pqh.insert(Q,c)
     
     # Merge nodes
     for i in Q:
         z_left= pqh.extractMin(Q)
         z_right = pqh.extractMin(Q)
-        z_freq = z_left + z_right
-        pqh.insert(Q, z_freq)
-        #print(Q)
-    print()
-    print("ORDERED PQ: " + str(Q))
-    print("Length: " + str(len(Q)))
-    print()
-Huffman(freqs)
+        z_freq = z_left.key + z_right.key
+        z = Element(key= z_freq, data = [z_left, z_right])
+        pqh.insert(Q, z)
+    return Q
+
+freqs = [5, 9, 12, 13, 16, 45]
+print(freqs)
+print()    
+Q = Huffman(freqs)
+
+# THIS SHOULDN'T WORK, BUT IT DOES
+for q in Q:
+    z_left= pqh.extractMin(Q)
+    z_right = pqh.extractMin(Q)
+    z_freq = z_left.key + z_right.key
+    z = Element(key= z_freq, data = [z_left, z_right])
+    pqh.insert(Q, z)
+#print(Q)
+
+def orderedTraversal(T: list) -> list[int]:
+    """
+    -----------------
+    Description
+    -----------------
+    Sort a binary search tree in increasing order.
+
+    -----------------
+    Parameters
+    -----------------
+    T: A binary search tree
+
+    -----------------
+    Return
+    -----------------
+    A list of integers sorted in increasing order
+
+    -----------------
+    Preconditions
+    -----------------
+    T must be represented as nested lists
+    """
+    return_list = []
+    _orderedTraversal(T[0], return_list)
+    return return_list
+
+def _orderedTraversal(T: list, return_list: list) -> None:
+    """
+    -----------------
+    Description
+    -----------------
+    An internal function, which handles the recursive calls for the public function orderedTraversal(T)
+
+    -----------------
+    Parameters
+    -----------------
+    T: A binary search tree
+    return_list: The list which will be returned by the public function
+
+    -----------------
+    Preconditions
+    -----------------
+    T must be represented as nested lists
+    return_list is empty first time this function is called (it will be populated through recursion)
+    """ 
+    x = T.data
+    #print(x)
+    if not isinstance(x, int):
+        _orderedTraversal(x[0], return_list)
+        print(x[0].key)
+        #print(x[0].key)
+        #print(x[1].key)
+        #print(x[1].key)
+        #print(x[1].key)
+        #return_list.append(x)
+        _orderedTraversal(x[1], return_list)
+        print(x[1].key)
+
+print(f"ORIGINAL: {Q}")
+print()
+test = orderedTraversal(Q)
+#print(test)
