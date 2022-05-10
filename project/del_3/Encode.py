@@ -1,4 +1,3 @@
-from typing import Optional
 from Element import Element
 import PQHeap as pqh
 import DictBinTree as dbt
@@ -40,25 +39,24 @@ Q = pqh.createEmptyPQ()
 for freq in freqs:
     pqh.insert(Q,freq)
 
-def Huffman(C):
+def Huffman(C: list["Element"]):
     # Create priority que
     Q = pqh.createEmptyPQ()
     for bit, freq in enumerate(C):
         c = Element(freq, bit)
         pqh.insert(Q,c)
-    
     # Merge nodes
     for i in Q:
         z_left= pqh.extractMin(Q)
         z_right = pqh.extractMin(Q)
         z_freq = z_left.key + z_right.key
-        z = Element(key= z_freq, data = [z_left, z_right])
+        sub_T = [[z_left.data], [z_right.data]]
+        print(sub_T)
+        z = Element(key = z_freq, data = sub_T)
         pqh.insert(Q, z)
     return Q
 
 freqs = [5, 9, 12, 13, 16, 45]
-print(freqs)
-print()    
 Q = Huffman(freqs)
 
 # THIS SHOULDN'T WORK, BUT IT DOES
@@ -66,9 +64,9 @@ for q in Q:
     z_left= pqh.extractMin(Q)
     z_right = pqh.extractMin(Q)
     z_freq = z_left.key + z_right.key
-    z = Element(key= z_freq, data = [z_left, z_right])
+    z_data = [[z_left.data], [z_right.data]]
+    z = Element(key= z_freq, data = z_data)
     pqh.insert(Q, z)
-#print(Q)
 
 def orderedTraversal(T: list) -> list[int]:
     """
@@ -93,7 +91,7 @@ def orderedTraversal(T: list) -> list[int]:
     T must be represented as nested lists
     """
     return_list = []
-    _orderedTraversal(T[0], return_list)
+    _orderedTraversal(T, return_list)
     return return_list
 
 def _orderedTraversal(T: list, return_list: list) -> None:
@@ -115,20 +113,16 @@ def _orderedTraversal(T: list, return_list: list) -> None:
     T must be represented as nested lists
     return_list is empty first time this function is called (it will be populated through recursion)
     """ 
-    x = T.data
-    #print(x)
+    x = T
     if not isinstance(x, int):
         _orderedTraversal(x[0], return_list)
-        print(x[0].key)
-        #print(x[0].key)
-        #print(x[1].key)
-        #print(x[1].key)
-        #print(x[1].key)
-        #return_list.append(x)
-        _orderedTraversal(x[1], return_list)
-        print(x[1].key)
+        if len(x) == 1:
+            print(f"INNER: {x[0]}")
+        else:
+            _orderedTraversal(x[1], return_list)
 
-print(f"ORIGINAL: {Q}")
+
+Q = [Element(key = 6500, data= [[[97],[98]],[99]])]
+print(Q)
 print()
-test = orderedTraversal(Q)
-#print(test)
+test = orderedTraversal(Q[0].data)
