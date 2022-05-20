@@ -1,5 +1,6 @@
-from typing import Any
-import random
+import os
+import sys
+
 '''
 Algoritmer og Datastrukturer | Projekt Del I
 Gruppemedlemmer:
@@ -8,9 +9,6 @@ Gruppemedlemmer:
 '''
 
 # Creates an empty Priority Queue
-from typing import Any
-
-
 def createEmptyPQ() -> list:
     """
     Creates an empty priority queue
@@ -25,72 +23,7 @@ def createEmptyPQ() -> list:
     """
     return []
 
-def _get_left_child(i: int) -> int:
-    """
-    Returns the index of the left child
 
-    Parameters
-    ------------
-    i: The index of the current node
-
-    Return
-    -----------
-    An integer corresponding to the index of the left child
-    """
-    return (2 * i) + 1
-
-def _get_right_child(i: int) -> int:
-    """
-    Returns the index of the right child
-
-    Parameters
-    ------------
-    i: The index of the current node
-
-    Return
-    -----------
-    An integer corresponding to the index of the right child
-    """
-    return (2 * i ) + 2
-
-def _get_parent(i: int) -> int:
-    """
-    Returns the index of the parent of the node
-
-    Parameters
-    ------------
-    i: The index of the current node
-
-    Return
-    -----------
-    An integer corresponding to the index of the parent
-    """
-    return (i - 1)//2
-
-def _exchange(i: Any, j: Any ) -> tuple[Any, Any]:
-    """
-    Exchanges two variables
-
-    Parameters
-    -----------
-    i: Variable to be exchanged
-    j: Variable to be exchanged
-
-    Return
-    -------
-    Returns a tuple with the two variables exchanged
-
-    Example:
-    ---------
-    >>> x = "x"
-    >>> y = "y"
-    >>> x, y = _exchange(x, y)
-    >>> print(x)
-    y
-    >>> print(y)
-    x
-    """
-    return (j, i)
 # Min heapifying algorithm.
 def MinHeapify(A: list[int], index: int):
     """
@@ -105,8 +38,8 @@ def MinHeapify(A: list[int], index: int):
     No return value
     """
     heap_size = len(A)
-    left = _get_left_child(index)
-    right = _get_right_child(index)
+    left = (2*index)+1 # Left child
+    right = (2*index)+2 # Right child
 
     if left < heap_size and A[left] < A[index]:
         smallest = left
@@ -115,7 +48,7 @@ def MinHeapify(A: list[int], index: int):
     if right < heap_size and A[right] < A[smallest]:
         smallest = right
     if smallest != index:
-        A[index], A[smallest] = _exchange(A[index], A[smallest])
+        A[index], A[smallest] = A[smallest], A[index]
         MinHeapify(A,smallest) # Recursion
     
 
@@ -163,8 +96,9 @@ def insert(A: list, e: int) -> None:
     """ 
     i = len(A)
     A.append(e)
-    parent = _get_parent(i)
+    parent = (i - 1)//2
     while i > 0 and A[parent] > A[i]:
-        A[i], A[parent] = _exchange(A[i], A[parent])
+        A[i], A[parent] = A[parent], A[i]
         i = A.index(A[parent])
-        parent = _get_parent(i)
+        parent = (i - 1)//2
+        
