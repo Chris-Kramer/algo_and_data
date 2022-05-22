@@ -37,7 +37,7 @@ with open(infile, "rb") as fileReader:
         
 ######## GENERATING HUFFMANN TREE AND CODES ########
 huffTree = Huffman(freqs)
-huff_codes = generate_huffcodes(huffTree.data, "")
+huff_codes = generate_huffcodes(huffTree.data)
 
 ####### WRITE TO OUTPUT ##########
 with open(infile, mode = "rb") as fileReader: 

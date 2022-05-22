@@ -6,6 +6,7 @@ Gruppemedlemmer:
 @Christoffer Mondrup Kramer | Eksamensnr.: 4102366
 '''
 
+from typing import List
 from Element import Element
 import PQHeap as pqh
 
@@ -45,12 +46,43 @@ def Huffman(C: list[int]) -> list["Element"]:
     return pqh.extractMin(Q)
 
 
-def generate_huffcodes(T: list, huffcode: str) -> dict:
+def generate_huffcodes(T: list[int]) -> list[str]:
     """
     -----------------
     Description
     -----------------
     A function which loops through Huffman Tree and generates huffcodes.
+
+    -----------------
+    Parameters
+    -----------------
+    T: A huffman tree.
+    n_char: How many characters are used in the decoding?
+        - This is the length of the table of freqencies
+
+    -----------------
+    Preconditions
+    -----------------
+    T must be represented as nested lists.
+        - A leaf is an integer
+        - An inner node is lit containing two elements
+        
+    -----------------
+    Return
+    -----------------
+    A list containing huffcodes corresponding to integers between 0 and 256
+    """
+    huff_codes = [""] * 256
+    _generate_huffcodes(T, "", huff_codes)
+    return huff_codes
+
+
+def _generate_huffcodes(T: list[int], huffcode: str, huff_codes: list[str]) -> None:
+    """
+    -----------------
+    Description
+    -----------------
+    An internal function which handles recursive calls for huffcode generation
 
     -----------------
     Parameters
@@ -64,17 +96,9 @@ def generate_huffcodes(T: list, huffcode: str) -> dict:
     T must be represented as nested lists.
         - A leaf is an integer
         - An inner node is lit containing two elements
-        
-    -----------------
-    Return
-    -----------------
-    A dictionary containing huffcodes, with the keys corresponding to integers between 0 and 256
     """
-    huff_codes = {}
-    
     if not isinstance(T, int) and len(T) > 1:
-        huff_codes.update(generate_huffcodes(T[0], huffcode + "0"))
-        huff_codes.update(generate_huffcodes(T[1], huffcode + "1"))
+        _generate_huffcodes(T[0], huffcode + "0", huff_codes)
+        _generate_huffcodes(T[1], huffcode + "1", huff_codes)
     else: #Found leaf
         huff_codes[T] = huffcode
-    return huff_codes
